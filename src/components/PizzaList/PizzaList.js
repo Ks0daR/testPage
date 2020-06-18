@@ -1,21 +1,28 @@
 import React from "react";
-import PizzaListItem from "../PizzaListItem/PizzaListItem";
-import products from "../../services/products.json";
+import { useSelector } from "react-redux";
+import { FormattedMessage } from "react-intl";
+
+import PizzaListItem from "../PizzaListItem/PizzaListItemContainer";
+// import productsJSON from "../../services/products.json";
 import styles from "./PizzaList.module.css";
 
-
-export default function PizzaListForTest() {
+export default function PizzaListForTest({ products }) {
+  const local = useSelector((state) => state.local);
   return (
     <div className={styles.pizzaListWrapper}>
-      <h2 className={styles.pizzaHeading}>Пицца: Лучшая цена</h2>
+      <h2 className={styles.pizzaHeading}>
+        <FormattedMessage id="pizza.classic" />
+      </h2>
       <ul className={styles.pizzaList}>
         {products.map((product, index) => {
           if (product.subcategory === "classic") {
-            return <PizzaListItem {...product} key={index} />;
+            return <PizzaListItem {...product} key={index} local={local} />;
           }
         })}
       </ul>
-      <h2 className={styles.pizzaHeading}>Пицца: Классические</h2>
+      <h2 className={styles.pizzaHeading}>
+        <FormattedMessage id="pizza.special" />
+      </h2>
       <ul className={styles.pizzaList}>
         {products.map((product, index) => {
           if (product.subcategory === "branded") {
@@ -24,7 +31,9 @@ export default function PizzaListForTest() {
         })}
       </ul>
 
-      <h2 className={styles.pizzaHeading}>Пицца: Фирменные</h2>
+      <h2 className={styles.pizzaHeading}>
+        <FormattedMessage id="pizza.premium" />
+      </h2>
       <ul className={styles.pizzaList}>
         {products.map((product, index) => {
           if (product.subcategory === "premium") {
