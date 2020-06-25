@@ -1,51 +1,45 @@
-import React, { useState, useEffect } from "react";
-import Spinner from "../Spinner/Spinner";
+import React, { useEffect } from "react";
+import { authSelectors, authOperations } from "../../redux/auth";
+import { Redirect } from "react-router-dom";
+
+import { useSelector, useDispatch } from "react-redux";
+import { FormattedMessage } from "react-intl";
+
 import { ClientOrders } from "./ClientOrders";
 import { ClientInfo } from "./ClientInfo";
+
 import styles from "./UserProfile.module.css";
 
 // GET "https://evening-caverns-34846.herokuapp.com/users/id"
 
-const id = "5e79e86a1005c628d790e8f0";
+//const id = "5e79e86a1005c628d790e8f0";
 
 export default function UserProfile() {
-  const [error, setError] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [user, setUser] = useState({});
+  const dispatch = useDispatch();
+  const username = useSelector(authSelectors.getUserName);
+  const id = useSelector(authSelectors.getUserId);
+  const email = useSelector(authSelectors.getUserEmail);
+  const isAuthenticated = useSelector(authSelectors.isAuthenticated);
 
   useEffect(() => {
-    setIsLoaded(true);
-    fetch(`https://evening-caverns-34846.herokuapp.com/users/${id}`)
-      .then((res) => res.json())
-      .then(
-        (result) => {
-          setUser({ ...result });
-          setIsLoaded(false);
-        },
-        (error) => {
-          setIsLoaded(false);
-          setError(error);
-        }
-      );
+    if (id) {
+      dispatch(authOperations.getCurrentUser(id));
+      dispatch(authOperations.getUserOrders(id));
+    }
   }, []);
+
+  if (!isAuthenticated) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <>
-      {error && (
-        <div>
-          <p>Ой... что-то пошло не так. Попробуйте снова.</p>
-        </div>
-      )}
-
-      {isLoaded && <Spinner />}
       <div className={styles.clientInfoContainer}>
-        {user.user && (
-          <ClientInfo username={user.user.username} email={user.user.email} />
-        )}
-        {user.user && <ClientOrders orders={user.user} />}
+        {isAuthenticated && <ClientInfo username={username} email={email} />}
+        {isAuthenticated && <ClientOrders />}
         <div className={styles.orderBtn}>
           <a href="/pizza" className={styles.orderBtnText}>
-            Новый заказ
+            <FormattedMessage id="new order" />
           </a>
         </div>
       </div>

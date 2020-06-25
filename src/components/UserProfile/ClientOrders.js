@@ -1,32 +1,48 @@
 import React from "react";
+import { authSelectors } from "../../redux/auth";
+import { useSelector } from "react-redux";
+import { FormattedMessage } from "react-intl";
+
 import styles from "./ClientOrders.module.css";
 
-export const ClientOrders = (orders) => {
-  const userOrders = orders.orders["orders"];
+export const ClientOrders = () => {
+  const local = useSelector((state) => state.local.lang);
+  const orders = useSelector(authSelectors.getUserOrders);
 
-  const ordersList = userOrders.map((item) => (
+  const ordersList = orders.map((item) => (
     <li key={item._id}>
-      <span className={styles.orderDate}>{item.createdAt.slice(0, 10)}</span>
-      <p className={styles.productTitle}>
-        {item.productsList[0].productName} (
-        <span>{item.productsList[0].type}</span>) -{" "}
-        <span>{item.productsList[0].itemsCount} шт.</span>
-      </p>
-      <span className={styles.orderPrice}>Стоимость заказа: {item.sumToPay} грн.</span>
+      <span className={styles.orderDate}>{new Date(item.createdAt).toLocaleDateString()}</span>
+      <div className={styles.productTitle}>
+        {item.productsList.map((i) => (
+          <div key={i._id}>
+            {i.productName[local]}{" "}
+            <span className={styles.productAmount}>
+              {i.type} - {i.itemsCount} <FormattedMessage id="q" />
+            </span>
+          </div>
+        ))}
+      </div>
+      <span className={styles.orderPrice}>
+        <FormattedMessage id="orders.sum" /> {item.sumToPay}{" "}
+        <FormattedMessage id="grn" />
+      </span>
       <hr />
     </li>
   ));
 
   return (
     <>
-      {" "}
-      {!userOrders ? (
+      {!orders ? (
         <div>
-          <p className={styles.noOrdersText}>У вас еще нет заказов</p>
+          <p className={styles.noOrdersText}>
+            <FormattedMessage id="orders.no" />
+          </p>
         </div>
       ) : (
         <div className={styles.clientOrderContainer}>
-          <h4 className={styles.clientOrderTitle}>История Ваших заказов</h4>
+          <h4 className={styles.clientOrderTitle}>
+            <FormattedMessage id="orders.history" />
+          </h4>
           <ul className={styles.clientOrdersList}>{ordersList}</ul>
         </div>
       )}

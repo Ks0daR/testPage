@@ -1,5 +1,9 @@
 @value variables: '../../stylesheet/vars.css';
-@value primaryColor, accentColor, lightColor, primaryTextFontSize, secondaryTextFontSize from variables;
+@value primaryColor,
+accentColor,
+lightColor,
+primaryTextFontSize,
+secondaryTextFontSize from variables;
 
 .footerContainer {
   background-image: url(../../assets/img/footerbg.svg);
@@ -14,7 +18,7 @@
 .footerOverlay {
   width: 100%;
   height: 100%;
-  background: rgba(39, 39, 39, 0.8);
+  background: rgba(39, 39, 39, 0.6);
   /* opacity: 0.6; */
   position: absolute;
 }
@@ -67,16 +71,23 @@
   margin-right: 15px;
 }
 
+a {
+  color: #fff;
+}
+
 .phoneFooter {
-  color: lightColor;
+  color: #fff;
 }
 
 .phoneFooter:hover {
-  color: lightColor;
+  color: #fff;
   text-decoration: none;
 }
 
 .socialsContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding-bottom: 70px;
   margin: 0 auto;
   border-radius: 50px;
@@ -84,17 +95,17 @@
 }
 
 .iconsContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background: rgba(255, 255, 255, 0.1);
-  padding: 11px;
-  padding-top: 16px;
-  padding-bottom: 10px;
   width: 40px;
-  height: 42px;
-  border-radius: 26px;
+  height: 40px;
+  border-radius: 50%;
   transition: 0.3s;
 }
 
-.iconsContainer:nth-child(-n + 3) {
+.iconsContainer:not(:last-of-type) {
   margin-right: 14px;
 }
 
@@ -105,7 +116,6 @@
 .linkImg {
   width: 21px;
   height: 20px;
-  margin-bottom: 9px;
 }
 
 .phoneImg {
@@ -175,6 +185,7 @@ a.devLink {
     font-size: 18px;
   }
 }
+
 @media screen and (min-width: 1200px) {
   .footerContainer {
     background-image: url(../../assets/img/Footerbgdes.svg);

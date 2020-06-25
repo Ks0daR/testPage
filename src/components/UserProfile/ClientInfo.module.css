@@ -14,11 +14,16 @@
 }
 
 .clienInfoTitle {
+  font-family: "OswaldRegular";
   font-size: 1.4rem;
   text-align: center;
   padding-top: 10px;
 }
 
+.clientInfoList {
+  padding: 15px 0 15px 10px;
+}
+ 
 .clientInfoList li:not(:last-child) {
   margin-bottom: 10px;
 }
@@ -34,7 +39,12 @@
 }
 
 @media screen and (min-width: 1200px) {
+  .clientInfo {
+    min-width: 222px;
+  }
+
   .clientInfoList {
     padding-top: 30px;
+    margin-bottom: 10px;
   }
 }

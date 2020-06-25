@@ -8,7 +8,7 @@ import languages from "../../languages";
 import styles from "./Authentication.module.css";
 
 export default function LoginPage({ setIsModalActive, setIsLogining }) {
-  const local = useSelector((state) => state.local);
+  const local = useSelector((state) => state.local.lang);
 
   const dispatch = useDispatch();
 
@@ -34,19 +34,23 @@ export default function LoginPage({ setIsModalActive, setIsLogining }) {
       const errors = {};
       if (!values.email) {
         errors.email = (
-          <p className={styles.formInputError}>Email is Required</p>
+          <p className={styles.formInputError}>
+            <FormattedMessage id="register.emailReq" />
+          </p>
         );
       }
       if (values.email && !values.email.includes("@")) {
         errors.email = (
           <p className={styles.formInputError}>
-            Email needs to include "@" symbol
+            <FormattedMessage id="register.emailSym" />
           </p>
         );
       }
       if (!values.password) {
         errors.password = (
-          <p className={styles.formInputError}>Password is Required</p>
+          <p className={styles.formInputError}>
+            <FormattedMessage id="register.passReq" />
+          </p>
         );
       }
       return errors;
@@ -136,10 +140,10 @@ export default function LoginPage({ setIsModalActive, setIsLogining }) {
       </p>
       <div className={styles.socialRegistration}>
         <a href="https://evening-caverns-34846.herokuapp.com/auth/google">
-          <button className={styles.googleSocial} type="button"></button>
+          <div className={styles.googleSocial}></div>
         </a>
         <a href="https://evening-caverns-34846.herokuapp.com/auth/facebook">
-          <button className={styles.facebookSocial} type="button">
+          <div className={styles.facebookSocial}>
             <svg
               width="11"
               height="20"
@@ -152,7 +156,7 @@ export default function LoginPage({ setIsModalActive, setIsLogining }) {
                 fill="white"
               />
             </svg>
-          </button>
+          </div>
         </a>
       </div>
     </div>

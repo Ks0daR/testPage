@@ -1,20 +1,26 @@
-import React, { Component } from "react";
 import { connect } from "react-redux";
+
 import OrderList from "./OrderList";
 import { orderOperations, orderSelectors } from "../../redux/order";
+import { getLocal } from "../../redux/local/localSelectors";
 
-class OrderListContainer extends Component {
-  render() {
-    return <OrderList {...this.props} />;
-  }
-}
+// class OrderListContainer extends Component {
+//   render() {
+//     return <OrderList {...this.props} />;
+//   }
+// }
 
 const mapStateToProps = (state) => {
-  return { userOrderList: orderSelectors.getUserOrder(state) };
+  return {
+    userOrderList: orderSelectors.getUserOrder(state),
+    local: getLocal(state),
+  };
 };
 
 const mapDispatchToProps = {
-  //   onFetchProductPizza: productOperations.fetchProductsByCategory,
+  deleteProdToOrderList: orderOperations.deleteProdToOrderList,
+  incrementItemsCount: orderOperations.incrementItemsCount,
+  decrementItemsCount: orderOperations.decrementItemsCount,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(OrderListContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(OrderList);

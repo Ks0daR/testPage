@@ -1,13 +1,19 @@
-import axios from "axios";
 import productActions from "./productActions";
-
-axios.defaults.baseURL = "https://evening-caverns-34846.herokuapp.com/";
+import {
+  getAllIngredients,
+  postNewProduct,
+  postImage,
+  getAllProducts,
+  getProductsByCategory,
+  getProductById,
+  updateProductById,
+  deleteProductById,
+} from "../../services/api";
 
 const fetchProducts = () => (dispatch) => {
   dispatch(productActions.productsRequest());
 
-  axios
-    .get("/products")
+  getAllProducts()
     .then(({ data }) => dispatch(productActions.productsSuccess(data.products)))
     .catch((error) => dispatch(productActions.productsError(error)));
 };
@@ -15,8 +21,7 @@ const fetchProducts = () => (dispatch) => {
 const fetchProductsByCategory = (category) => (dispatch) => {
   dispatch(productActions.byCategoryRequest());
 
-  axios
-    .get(`/products/?category="${category}"`)
+  getProductsByCategory(category)
     .then(({ data }) =>
       dispatch(productActions.byCategorySuccess(data.products))
     )
@@ -26,10 +31,71 @@ const fetchProductsByCategory = (category) => (dispatch) => {
 const fetchProductById = (id) => (dispatch) => {
   dispatch(productActions.byIdRequest());
 
-  axios
-    .get(`/products/${id}`)
+  getProductById(id)
     .then(({ data }) => dispatch(productActions.byIdSuccess(data.product)))
     .catch((error) => dispatch(productActions.byIdErrror(error)));
 };
 
-export default { fetchProducts, fetchProductsByCategory, fetchProductById };
+//for AdminPage
+const sendFile = (file) => (dispatch) => {
+  dispatch(productActions.sendFileRequest());
+  // console.log(file);
+
+  postImage(file)
+    .then(({ data }) =>
+      dispatch(productActions.sendFileSuccess(data.image.file))
+    )
+    .catch((error) => dispatch(productActions.sendFileError(error)));
+};
+
+const sendProduct = (product) => (dispatch) => {
+  dispatch(productActions.sendProductRequest());
+
+  postNewProduct(product)
+    .then(({ data }) =>
+      dispatch(productActions.sendProductSuccess(data.product))
+    )
+    //проверить что приходит в data
+    .catch((error) => dispatch(productActions.sendProductError(error)));
+};
+
+const getIngredients = () => (dispatch) => {
+  dispatch(productActions.getAllIngradientsRequest());
+
+  getAllIngredients()
+    .then(({ data }) =>
+      dispatch(productActions.getAllIngradientsSuccess(data.ingredients))
+    )
+    .catch((error) => dispatch(productActions.getAllIngradientsError(error)));
+};
+
+const updateProduct = (productId, newProduct) => (dispatch) => {
+  dispatch(productActions.updateProductRequest());
+
+  updateProductById(productId, newProduct)
+    .then((res) => dispatch(productActions.updateProductSuccess(res)))
+    .catch((error) => dispatch(productActions.updateProductError(error)));
+};
+
+const deleteProduct = (productId) => (dispatch) => {
+  dispatch(productActions.deleteProductRequest());
+
+  deleteProductById(productId)
+    .then(
+      ({ data }) => dispatch(productActions.deleteProductSuccess(data))
+      //проверить что приходит в data
+    )
+    .catch((error) => dispatch(productActions.deleteProductError(error)));
+};
+
+export default {
+  fetchProducts,
+  fetchProductsByCategory,
+  fetchProductById,
+
+  sendFile,
+  sendProduct,
+  getIngredients,
+  updateProduct,
+  deleteProduct,
+};

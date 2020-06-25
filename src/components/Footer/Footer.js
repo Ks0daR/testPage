@@ -1,8 +1,7 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
-import { Link, Route } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { routes } from "../../services/routes";
-import AboutDevelopers from "../../components/AboutDevelopers";
 
 import Facebook from "../../assets/icons/facebook.svg";
 import Instagram from "../../assets/icons/insta.svg";
@@ -14,9 +13,6 @@ import styles from "./Footer.module.css";
 
 const Footer = () => (
   <>
-    <Route path="/devs">
-      <AboutDevelopers />
-    </Route>
     <div className={styles.footerContainer}>
       <div className={styles.footerOverlay}></div>
       <div className={styles.footerItemsContainer}>
@@ -27,7 +23,7 @@ const Footer = () => (
         <div className={styles.phoneContainer}>
           <img src={Phone} alt="Phone" className={styles.phoneImg}></img>
           <a href="tel:+380444444444" className={styles.phoneFooter}>
-            +38 044 444 44 44
+            +38044 444 44 44
           </a>
         </div>
         <div className={styles.socialsContainer}>

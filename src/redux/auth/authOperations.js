@@ -21,7 +21,9 @@ const register = (credentials) => (dispatch) => {
       token.set(data.token);
       dispatch(authActions.registerSuccess(data));
     })
-    .catch(({ message }) => dispatch(authActions.registerError(message)));
+    .catch(({ response: { data: { text } } }) =>
+      dispatch(authActions.registerError(text))
+    );
 };
 
 const logIn = (credentials) => (dispatch) => {
@@ -29,11 +31,13 @@ const logIn = (credentials) => (dispatch) => {
 
   axios
     .post("/auth/login", credentials)
-    .then((response) => {
-      token.set(response.data.token);
-      dispatch(authActions.loginSuccess(response.data));
+    .then(({ data }) => {
+      token.set(data.token);
+      dispatch(authActions.loginSuccess(data));
     })
-    .catch(({ message }) => dispatch(authActions.loginError(message)));
+    .catch(({ response: { data: { text } } }) =>
+      dispatch(authActions.loginError(text))
+    );
 };
 
 const logInSocial = (user) => (dispatch) => {
@@ -56,11 +60,10 @@ const getCurrentUser = () => (dispatch, getState) => {
 
   axios
     .get("/auth/current")
-    .then(({ data }) => {
-      console.log(data.user);
-      dispatch(authActions.getCurrentUserSuccess(data));
-    })
-    .catch(({ message }) => authActions.getCurrentUserError(message));
+    .then(({ data }) => dispatch(authActions.getCurrentUserSuccess(data)))
+    .catch(({ response: { data: { text } } }) =>
+      dispatch(authActions.getCurrentUserError(text))
+    );
 };
 
 const getUserOrders = (id) => (dispatch) => {
@@ -69,7 +72,9 @@ const getUserOrders = (id) => (dispatch) => {
   axios
     .get(`/users/${id}`)
     .then(({ data }) => dispatch(authActions.getUserOrdersSuccess(data)))
-    .catch(({ message }) => authActions.getUserOrdersError(message));
+    .catch(({ response: { data: { text } } }) =>
+      dispatch(authActions.getUserOrdersError(text))
+    );
 };
 
 const logOut = () => (dispatch) => {
@@ -81,7 +86,9 @@ const logOut = () => (dispatch) => {
       token.unset();
       dispatch(authActions.logoutSuccess());
     })
-    .catch(({ message }) => dispatch(authActions.logoutError(message)));
+    .catch(({ response: { data: { text } } }) =>
+      dispatch(authActions.logoutError(text))
+    );
 };
 
 export default {

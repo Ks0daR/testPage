@@ -6,14 +6,19 @@ const ordersReducer = createReducer([], {
   [orderActions.ordersSuccess]: (state, { payload }) => payload,
   [orderActions.orderByIdSuccess]: (state, { payload }) => payload,
   [orderActions.addOrderSuccess]: (state, { payload }) => payload,
-  [orderActions.updateOrderSuccess]: (state, { payload }) => payload,
+  [orderActions.postOrderStatusSuccess]: (state, action) => {
+    return [
+      ...state.filter((item) => item._id !== action.payload._id),
+      action.payload,
+    ];
+  },
 });
 
 const errorReducer = createReducer(null, {
   [orderActions.ordersError]: (state, { payload }) => payload,
   [orderActions.orderByIdError]: (state, { payload }) => payload,
   [orderActions.addOrderError]: (state, { payload }) => payload,
-  [orderActions.updateOrderError]: (state, { payload }) => payload,
+  [orderActions.postOrderStatusError]: (state, { payload }) => payload,
 });
 
 const loadingReducer = createReducer(false, {
@@ -29,27 +34,58 @@ const loadingReducer = createReducer(false, {
   [orderActions.addOrderSuccess]: () => false,
   [orderActions.addOrderError]: () => false,
 
-  [orderActions.updateOrderRequest]: () => true,
-  [orderActions.updateOrderSuccess]: () => false,
-  [orderActions.updateOrderError]: () => false,
+  [orderActions.postOrderStatusRequest]: () => true,
+  [orderActions.postOrderStatusSuccess]: () => false,
+  [orderActions.postOrderStatusError]: () => false,
 });
 
 //Работаем с листом заказа пользователя
 
 const userOrderListReducer = createReducer([], {
-  [orderActions.addProdToOrderList]: (state, action) => [
-    ...state,
-    action.payload,
-  ],
-  [orderActions.deleteProdToOrderList]: (state, action) =>
-    state.splice(action.payload, 1), // state.filter((orders) => orders.id !== action.payload),
-  [orderActions.updateItemsCount]: (state, action) => {
-    const { index, itemsCount } = action.payload;
-    const updatedItem = {
-      ...state[index],
-      itemsCount: itemsCount,
-    };
-    return state.splice(index, 1, updatedItem);
+  [orderActions.addProdToOrderList]: (state, action) => {
+    return [...state, action.payload];
+  },
+
+  [orderActions.clearOrderList]: () => {
+    return [];
+  },
+
+  [orderActions.deleteProdToOrderList]: (state, action) => {
+    return state.filter((product) => {
+      if (
+        product.type === action.payload.type &&
+        product.productId === action.payload.id
+      ) {
+        return false;
+      }
+      return true;
+    });
+  },
+
+  [orderActions.incrementItemsCount]: (state, action) => {
+    const { id, type } = action.payload;
+    return state.map((item, index) => {
+      if (item.productId === id && item.type === type) {
+        return {
+          ...item,
+          itemsCount: item.itemsCount + 1,
+        };
+      }
+      return item;
+    });
+  },
+
+  [orderActions.decrementItemsCount]: (state, action) => {
+    const { id, type } = action.payload;
+    return state.map((item, index) => {
+      if (item.productId === id && item.itemsCount > 1 && item.type === type) {
+        return {
+          ...item,
+          itemsCount: item.itemsCount - 1,
+        };
+      }
+      return item;
+    });
   },
 });
 
