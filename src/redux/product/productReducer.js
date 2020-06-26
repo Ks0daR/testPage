@@ -8,10 +8,6 @@ const productReducer = createReducer([], {
   [productActions.byIdSuccess]: (state, { payload }) => payload,
 
   [productActions.sendProductSuccess]: (state, { payload }) => [payload],
-  // [
-  //   ...state,
-  //   payload,
-  // ],
   [productActions.updateProductSuccess]: (state, { payload }) => payload,
   [productActions.deleteProductSuccess]: (state, { payload }) =>
     state.filter((element) => element._id !== payload),
@@ -59,6 +55,7 @@ const loadingReducer = createReducer(false, {
 
 const linkReducer = createReducer(null, {
   [productActions.sendFileSuccess]: (state, { payload }) => payload,
+  [productActions.saveExistedImg]: (state, { payload }) => payload,
   [productActions.sendProductSuccess]: (state, { payload }) => null,
   // [productActions.cancelInput]: (state, { payload }) => null,
 });
