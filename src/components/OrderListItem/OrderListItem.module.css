@@ -34,7 +34,9 @@
 .productName {
   text-align: center;
   color: accentColor;
-  font-family: "OswaldRegular";
+  text-transform: lowercase;
+  text-transform: capitalize;
+  font-family: "OswaldMedium";
   font-style: normal;
   font-weight: 500;
   font-size: 24px;
@@ -106,8 +108,8 @@
   align-items: center;
   justify-content: center;
   position: absolute;
-  left: 11%;
-  top: 40%;
+  left: 12%;
+  top: 35%;
   font-family: "RobotoRegular";
   font-style: normal;
   font-weight: bold;
@@ -118,7 +120,7 @@
   height: 40px;
   border-radius: 50%;
   border: none;
-  background-color: rgba(255, 108, 0, 0.5);
+  background-color: rgba(255, 108, 0);
   color: white;
 }
 
@@ -152,6 +154,8 @@
     width: 270px;
     height: 203px;
     margin-bottom: 0px;
+    object-fit: contain;
+    object-position: center;
   }
 
   .deleteButton {
@@ -161,15 +165,20 @@
   }
 
   .contentWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     width: 468px;
     padding-top: 44px;
     padding-left: 32px;
     padding-right: 16px;
+    padding-bottom: 43px;
   }
 
   .productName,
   .ingredientsText {
     text-align: left;
+    margin-bottom: 0px;
   }
 
   /* .orderDetailsWrapper {
@@ -177,9 +186,8 @@
   } */
 
   .pizzaSize {
-    position: absolute;
-    left: 33%;
-    top: 20%;
+    left: 30%;
+    top: 6%;
   }
 }
 
@@ -198,5 +206,10 @@
 
   .contentWrapper {
     width: 500px;
+  }
+
+  .pizzaSize {
+    left: 29%;
+    top: 4%;
   }
 }
