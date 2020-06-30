@@ -5,7 +5,7 @@ const productsSuccess = createAction("products/fetchProductsSuccess");
 const productsError = createAction("products/fetchProductsError");
 
 const byCategoryRequest = createAction(
-  "products/fetchProductsByCategotyRequest"
+  "products/fetchProductsByCategoryRequest"
 );
 const byCategorySuccess = createAction(
   "products/fetchProductsByCategorySucceess"
@@ -14,7 +14,7 @@ const byCategoryError = createAction("products/fetchProductsByCategoryError");
 
 const byIdRequest = createAction("products/fetchProductsByIdRequest");
 const byIdSuccess = createAction("products/fetchProductsByIdSuccess");
-const byIdErrror = createAction("products/fetchProductsByIdError");
+const byIdError = createAction("products/fetchProductsByIdError");
 
 //for AdminPage
 
@@ -22,13 +22,26 @@ const sendProductRequest = createAction("products/sendProductRequest");
 const sendProductSuccess = createAction("products/sendProductSuccess");
 const sendProductError = createAction("products/sendProductError");
 
-const getAllIngradientsRequest = createAction(
-  "products/getAllIngradientsRequest"
+const getAllIngredientsRequest = createAction(
+  "products/getAllIngredientsRequest"
 );
-const getAllIngradientsSuccess = createAction(
-  "products/getAllIngradientsSuccess"
+const getAllIngredientsSuccess = createAction(
+  "products/getAllIngredientsSuccess"
 );
-const getAllIngradientsError = createAction("products/getAllIngradientsError");
+const getAllIngredientsError = createAction("products/getAllIngredientsError");
+
+const createNewIngredientsRequest = createAction(
+  "products/createNewIngredientRequest"
+);
+const createNewIngredientsSuccess = createAction(
+  "products/createNewIngredientSuccess"
+);
+const createNewIngredientsError = createAction(
+  "products/createNewIngredientError"
+);
+
+const addIngredient = createAction("products/addIngredient");
+const addIngredientError = createAction("products/addIngredientError");
 
 const updateProductRequest = createAction("products/updateProductRequest");
 const updateProductSuccess = createAction("products/updateProductSuccess");
@@ -43,6 +56,8 @@ const sendFileSuccess = createAction("products/sendFileSuccess");
 const sendFileError = createAction("products/sendFileError");
 
 const saveExistedImg = createAction("products/saveExistedImg");
+const saveExistedImgSuccess = createAction("products/saveExistedImgSuccess");
+
 // const cancelInput = createAction("products/cancelInput");
 
 export default {
@@ -56,7 +71,7 @@ export default {
 
   byIdRequest,
   byIdSuccess,
-  byIdErrror,
+  byIdError,
 
   // cancelInput,
 
@@ -64,9 +79,13 @@ export default {
   sendProductSuccess,
   sendProductError,
 
-  getAllIngradientsRequest,
-  getAllIngradientsSuccess,
-  getAllIngradientsError,
+  getAllIngredientsRequest,
+  getAllIngredientsSuccess,
+  getAllIngredientsError,
+
+  createNewIngredientsRequest,
+  createNewIngredientsSuccess,
+  createNewIngredientsError,
 
   updateProductRequest,
   updateProductSuccess,
@@ -80,5 +99,6 @@ export default {
   sendFileSuccess,
   sendFileError,
 
-  saveExistedImg,
+  addIngredient,
+  addIngredientError,
 };

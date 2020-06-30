@@ -8,6 +8,7 @@ import {
   getProductById,
   updateProductById,
   deleteProductById,
+  createNewIngredients,
 } from "../../services/api";
 
 const fetchProducts = () => (dispatch) => {
@@ -33,13 +34,12 @@ const fetchProductById = (id) => (dispatch) => {
 
   getProductById(id)
     .then(({ data }) => dispatch(productActions.byIdSuccess(data.product)))
-    .catch((error) => dispatch(productActions.byIdErrror(error)));
+    .catch((error) => dispatch(productActions.byIdError(error)));
 };
 
 //for AdminPage
 const sendFile = (file) => (dispatch) => {
   dispatch(productActions.sendFileRequest());
-  // console.log(file);
 
   postImage(file)
     .then(({ data }) =>
@@ -60,13 +60,22 @@ const sendProduct = (product) => (dispatch) => {
 };
 
 const getIngredients = () => (dispatch) => {
-  dispatch(productActions.getAllIngradientsRequest());
+  dispatch(productActions.getAllIngredientsRequest());
 
   getAllIngredients()
     .then(({ data }) =>
-      dispatch(productActions.getAllIngradientsSuccess(data.ingredients))
+      dispatch(productActions.getAllIngredientsSuccess(data.ingredients))
     )
-    .catch((error) => dispatch(productActions.getAllIngradientsError(error)));
+    .catch((error) => dispatch(productActions.getAllIngredientsError(error)));
+};
+const createNewIngredient = (ingredient) => (dispatch) => {
+  dispatch(productActions.createNewIngredientsRequest());
+
+  createNewIngredients(ingredient)
+    .then(() => dispatch(productActions.createNewIngredientsSuccess()))
+    .catch((error) =>
+      dispatch(productActions.createNewIngredientsError(error))
+    );
 };
 
 const updateProduct = (productId, newProduct) => (dispatch) => {
@@ -88,10 +97,6 @@ const deleteProduct = (productId) => (dispatch) => {
     .catch((error) => dispatch(productActions.deleteProductError(error)));
 };
 
-const saveExistProdImg = (link) => (dispatch) => {
-  dispatch(productActions.saveExistedImg(link));
-};
-
 export default {
   fetchProducts,
   fetchProductsByCategory,
@@ -102,6 +107,5 @@ export default {
   getIngredients,
   updateProduct,
   deleteProduct,
-
-  saveExistProdImg,
+  createNewIngredient,
 };
