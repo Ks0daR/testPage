@@ -55,7 +55,9 @@ const sendFileRequest = createAction("products/sendFileRequest");
 const sendFileSuccess = createAction("products/sendFileSuccess");
 const sendFileError = createAction("products/sendFileError");
 
-const saveExistedImg = createAction("products/saveExistedImg");
+const clearFile = createAction("products/clearFile");
+
+const imagesInit = createAction("products/imagesInit");
 const saveExistedImgSuccess = createAction("products/saveExistedImgSuccess");
 
 // const cancelInput = createAction("products/cancelInput");
@@ -99,6 +101,9 @@ export default {
   sendFileSuccess,
   sendFileError,
 
+  clearFile,
+
   addIngredient,
   addIngredientError,
+  imagesInit,
 };

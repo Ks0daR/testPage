@@ -57,14 +57,17 @@ const loadingReducer = createReducer(false, {
   [productActions.updateProductRequest]: (state, { payload }) => true,
   [productActions.updateProductSuccess]: (state, { payload }) => false,
   [productActions.updateProductError]: (state, { payload }) => false,
-  [productActions.deleteProductRequest]: (state, { payload }) => false,
-  [productActions.deleteProductSuccess]: (state, { payload }) => true,
+  [productActions.deleteProductRequest]: (state, { payload }) => true,
+  [productActions.deleteProductSuccess]: (state, { payload }) => false,
   [productActions.deleteProductError]: (state, { payload }) => false,
   // [productActions.saveExistedImgSuccess]: (state, { payload }) => false,
 });
 
 const linkReducer = createReducer(null, {
   [productActions.sendFileSuccess]: (state, { payload }) => payload,
+  [productActions.clearFile]: () => null,
+  [productActions.deleteProductSuccess]: (state, { payload }) => null,
+  [productActions.imagesInit]: (state, { payload }) => payload,
 });
 
 const ingredientsReducer = createReducer([], {

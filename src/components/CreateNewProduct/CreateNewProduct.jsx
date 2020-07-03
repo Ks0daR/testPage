@@ -2,35 +2,40 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styles from "./CreateNewProduct.module.css";
 import Select from "react-select";
-import productSelectors from "../../redux/product/productSelectors";
-import productOperations from "../../redux/product/productOperations";
+import {
+  productSelectors,
+  productOperations,
+  productActions,
+} from "../../redux/product";
 import Notification from "../Notification";
 import { FormattedMessage } from "react-intl";
+import AddNewIngredient from "../AdminUpdateListItemEdit/AdminUpdateListItemElems/AddNewIngredient";
 
 import languages from "../../languages";
 import style from "../AdminUpdateListItemEdit/adminUpdateListItemEdit.module.css";
+import Spinner from "../Spinner";
 
 const CreateNewProduct = () => {
-  const local = useSelector(state => state.local.lang);
+  const local = useSelector((state) => state.local.lang);
   const categories = {
     pizza: "pizza",
     drinks: "drinks",
     sides: "sides",
-    desserts: "desserts"
+    desserts: "desserts",
   };
 
   const options = [
     { value: categories.pizza, label: languages[local].pizza },
     { value: categories.drinks, label: languages[local].drinks },
     { value: categories.sides, label: languages[local].sides },
-    { value: categories.desserts, label: languages[local].desserts }
+    { value: categories.desserts, label: languages[local].desserts },
   ];
 
   const pizzaCategories = [
     // {value: "bestPrice", label: "Best price"},
     { value: "classic", label: languages[local]["pizza.classic"] },
     { value: "branded", label: languages[local]["pizza.special"] },
-    { value: "premium", label: languages[local]["pizza.premium"] }
+    { value: "premium", label: languages[local]["pizza.premium"] },
   ];
 
   const [category, changeCategory] = useState(options[0]);
@@ -45,68 +50,101 @@ const CreateNewProduct = () => {
   const [description, setDescription] = useState("");
   const [activeIngredients, setActiveIngredients] = useState([]);
 
+  const isLoading = useSelector(productSelectors.getLoading);
+  const hasError = useSelector(productSelectors.getError);
+  const fileLink = useSelector(productSelectors.getFileLink);
   const ingredients = useSelector(productSelectors.getIngredients);
   const dispatch = useDispatch();
-  const postImage = file => dispatch(productOperations.sendFile(file));
-  const hrefProductImd = useSelector(productSelectors.fileLink);
-  const postNewProduct = product =>
+  const postImage = (file) => dispatch(productOperations.sendFile(file));
+  const hrefProductImg = useSelector(productSelectors.fileLink);
+  const postNewProduct = (product) =>
     dispatch(productOperations.sendProduct(product));
   const createdProduct = useSelector(productSelectors.getProducts);
-  //   console.log("hrefProductImd:", hrefProductImd);
+  //   console.log("hrefProductImg:", hrefProductImg);
+
+  const clearFields = () => {
+    changeCategory(options[0]);
+    changeSubCategory(pizzaCategories[0]);
+    setUkrName("");
+    setEnName("");
+    setRuName("");
+    setPrice("");
+    setM("");
+    setL("");
+    setXL("");
+    setDescription("");
+    setActiveIngredients([]);
+  };
 
   useEffect(() => {
     dispatch(productOperations.getIngredients());
   }, [dispatch]);
 
-  const handleImg = e => {
+  useEffect(() => {
+    return () => {
+      dispatch(productActions.clearFile());
+    };
+  }, [dispatch]);
+
+  const handleImg = (e) => {
     e.persist();
     e.preventDefault();
     postImage(e.target.files[0]);
   };
 
-  const handleCheckboxChange = e => {
+  const handleCheckboxChange = (e) => {
     e.persist();
     if (e.target.checked) {
-      return setActiveIngredients(prev => [...prev, e.target.value]);
+      return setActiveIngredients((prev) => [...prev, e.target.value]);
     }
-    setActiveIngredients(prev => prev.filter(el => el !== e.target.value));
+    setActiveIngredients((prev) => prev.filter((el) => el !== e.target.value));
   };
 
-  const submitForm = async e => {
+  const submitForm = async (e) => {
     e.persist();
     e.preventDefault();
+    if (!(hrefProductImg && ukrName && ruName && enName)) {
+      return alert("Не все поля заполнены");
+    }
     const product = {
       categories: category.value,
       currency: "грн",
-      images: hrefProductImd,
+      images: hrefProductImg,
       name: {
         ukr: ukrName,
         en: enName,
-        ru: ruName
-      }
+        ru: ruName,
+      },
     };
     if (category.value === categories.pizza) {
+      if (!(activeIngredients && M && L && XL)) {
+        return alert("Не все поля заполнены");
+      }
       product.ingredients = activeIngredients;
       product.subcategory = subCategory.value;
       product.price = {
         M: M,
         L: L,
-        XL: XL
+        XL: XL,
       };
     } else {
+      if (!(price && description)) {
+        return alert("Не все поля заполнены");
+      }
       product.price = { price };
       product.description = description;
     }
     postNewProduct(product);
+    clearFields();
   };
-
   return (
     <div className={styles.createContainer}>
+      {isLoading && <Spinner />}
+      {hasError && <Notification message={languages[local].error} />}
       {createdProduct.length === 1 && (
         <Notification
           message={languages[local]["product.created"]}
-          confirm
-          forCard
+          confirm={createdProduct.length === 1}
         />
       )}
       <form onSubmit={submitForm} className={styles.applyForm}>
@@ -134,7 +172,7 @@ const CreateNewProduct = () => {
           <input
             type="text"
             value={ruName}
-            onChange={e => setRuName(e.target.value)}
+            onChange={(e) => setRuName(e.target.value)}
             className={styles.editForm__inputLang}
           />
           <p className={style.editCard__titleLang}>
@@ -143,7 +181,7 @@ const CreateNewProduct = () => {
           <input
             type="text"
             value={enName}
-            onChange={e => setEnName(e.target.value)}
+            onChange={(e) => setEnName(e.target.value)}
             className={styles.editForm__inputLang}
           />
           <p className={style.editCard__titleLang}>
@@ -152,7 +190,7 @@ const CreateNewProduct = () => {
           <input
             type="text"
             value={ukrName}
-            onChange={e => setUkrName(e.target.value)}
+            onChange={(e) => setUkrName(e.target.value)}
             className={styles.editForm__inputLang}
           />
         </div>
@@ -166,7 +204,7 @@ const CreateNewProduct = () => {
             <input
               type="text"
               value={M}
-              onChange={e => setM(e.target.value)}
+              onChange={(e) => setM(e.target.value)}
               className={styles.editForm__inputLang}
             />
 
@@ -175,7 +213,7 @@ const CreateNewProduct = () => {
             <input
               type="text"
               value={L}
-              onChange={e => setL(e.target.value)}
+              onChange={(e) => setL(e.target.value)}
               className={styles.editForm__inputLang}
             />
 
@@ -184,7 +222,7 @@ const CreateNewProduct = () => {
             <input
               type="text"
               value={XL}
-              onChange={e => setXL(e.target.value)}
+              onChange={(e) => setXL(e.target.value)}
               className={styles.editForm__inputLang}
             />
           </div>
@@ -196,7 +234,7 @@ const CreateNewProduct = () => {
             <input
               type="text"
               value={price}
-              onChange={e => setPrice(e.target.value)}
+              onChange={(e) => setPrice(e.target.value)}
               className={styles.editForm__inputLang_price}
             />
           </div>
@@ -210,11 +248,13 @@ const CreateNewProduct = () => {
             <input
               type="text"
               value={description}
-              onChange={e => setDescription(e.target.value)}
+              onChange={(e) => setDescription(e.target.value)}
               className={styles.descriptionInput}
             />
           </label>
         )}
+
+        {fileLink && <img src={fileLink} alt="" className={styles.photoImg} />}
 
         <label className={`${styles.inputLabel} ${styles.btn}`}>
           <h4 className={styles.btn}>
@@ -230,7 +270,7 @@ const CreateNewProduct = () => {
         {/* <hr /> */}
         <div className={styles.ingredientsContainer}>
           {category.value === categories.pizza &&
-            ingredients.map(i => (
+            ingredients.map((i) => (
               <label key={i._id} className={styles.ingredient}>
                 {i.name[local]}
                 {/* <p className={styles.chooseVar}>{i.name[local]}</p> */}
@@ -247,6 +287,7 @@ const CreateNewProduct = () => {
         <button type="Submit" className={styles.btn}>
           <FormattedMessage id="send" />
         </button>
+        <AddNewIngredient />
       </form>
     </div>
   );

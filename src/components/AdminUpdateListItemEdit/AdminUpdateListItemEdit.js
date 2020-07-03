@@ -10,6 +10,7 @@ import productSelectors from "../../redux/product/productSelectors";
 import productOperations from "../../redux/product/productOperations";
 import Spinner from "../Spinner";
 import style from "./adminUpdateListItemEdit.module.css";
+import productActions from "../../redux/product/productActions.js";
 // import languages from "../../languages";
 
 const AdminUpdateListItemEdit = () => {
@@ -18,8 +19,10 @@ const AdminUpdateListItemEdit = () => {
   let productForEdit = null;
   if (location.state) {
     productForEdit = location.state.product;
+    // console.log(productForEdit);
   } else {
     productForEdit = JSON.parse(sessionStorage.getItem("editedItem"));
+    // console.log(productForEdit);
   }
 
   const ingredients = useSelector(productSelectors.addIngredient);
@@ -36,6 +39,7 @@ const AdminUpdateListItemEdit = () => {
   const [confirmEdit, setConfirmEdit] = useState("");
   const [priceNoPizza, setPriceNoPizza] = useState(productForEdit.price.price);
   const [price, setPrice] = useState("");
+
   const [pricePizzaM, setPricePizzaM] = useState(productForEdit.price.M);
   const [pricePizzaL, setPricePizzaL] = useState(productForEdit.price.L);
   const [pricePizzaXL, setPricePizzaXL] = useState(productForEdit.price.XL);
@@ -47,7 +51,9 @@ const AdminUpdateListItemEdit = () => {
     { label: "premium", value: "premium" },
   ];
 
-  const postImage = (file) => dispatch(productOperations.sendFile(file));
+  const postImage = (file) => {
+    dispatch(productOperations.sendFile(file));
+  };
   const updateProduct = (id, editedItem) =>
     dispatch(productOperations.updateProduct(id, editedItem));
 
@@ -64,7 +70,11 @@ const AdminUpdateListItemEdit = () => {
 
   useEffect(() => {
     dispatch(productOperations.getIngredients());
-  }, []);
+  }, []); // eslint-disable-line
+  useEffect(() => {
+    dispatch(dispatch(productActions.imagesInit(productForEdit.images)));
+  }, []); // eslint-disable-line
+
   const collector = () => {
     const name = { ru: nameRu, ukr: nameUkr, en: nameEn };
     if (!price) {
@@ -78,21 +88,22 @@ const AdminUpdateListItemEdit = () => {
       price,
       name,
       ingredients,
+      images,
     };
-    // editedItem.ingredients=ingredientsInProduct
-    editedItem.images = images || productForEdit.images;
     editedItem.name = { ru: nameRu, ukr: nameUkr, en: nameEn };
     editedItem.categories = productForEdit.categories;
     editedItem.subcategory = subcategory.value;
     if (productForEdit.categories !== "pizza") {
       editedItem.description = description;
     }
+    // console.log(editedItem);
     return editedItem;
   };
 
   const handleImageFile = (ev) => {
     ev.preventDefault();
     ev.target.files[0] && postImage(ev.target.files[0]);
+    window.history.pushState({}, "", "/");
   };
   const handleForm = (ev) => {
     ev.preventDefault();
@@ -105,6 +116,8 @@ const AdminUpdateListItemEdit = () => {
     ev.preventDefault();
     deleteProduct();
     setConfirmEdit("del");
+    sessionStorage.removeItem("editedItem");
+    window.history.pushState({}, "", "/");
   };
   window.addEventListener("unload", () => {
     const editedItem = { _id: productForEdit._id, ...collector() };
@@ -122,7 +135,7 @@ const AdminUpdateListItemEdit = () => {
       <>
         <div className={style.editCard}>
           <img
-            src={images || productForEdit.images}
+            src={images}
             alt={productForEdit.closeUpImages}
             className={style.editCard__image}
           />
@@ -236,7 +249,6 @@ const AdminUpdateListItemEdit = () => {
             disabled={isLoading}
             form="editForm"
             type="submit"
-            // name="complete"
             className={style.editForm__btnSubmit}
           >
             <FormattedMessage id="update.saveChanges" />
@@ -245,7 +257,6 @@ const AdminUpdateListItemEdit = () => {
             disabled={isLoading}
             form="editForm"
             type="submit"
-            // name="delete"
             className={style.editForm__btnSubmit}
             onClick={deleteItem}
           >
