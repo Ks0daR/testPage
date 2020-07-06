@@ -11,16 +11,14 @@ const getOrderTime = () => new Date().toLocaleTimeString().slice(0, -3);
 
 export default function OrderForm() {
   const dispatch = useDispatch();
-  const isAuthenticated = useSelector((state) =>
+  const isAuthenticated = useSelector(state =>
     authSelectors.isAuthenticated(state)
   );
-  const local = useSelector((state) => state.local.lang);
+  const local = useSelector(state => state.local.lang);
 
-  const creator = useSelector((state) => authSelectors.getUserId(state));
-  const name = useSelector((state) => authSelectors.getUserName(state));
-  const productsList = useSelector((state) =>
-    orderSelectors.getUserOrder(state)
-  );
+  const creator = useSelector(state => authSelectors.getUserId(state));
+  const name = useSelector(state => authSelectors.getUserName(state));
+  const productsList = useSelector(state => orderSelectors.getUserOrder(state));
 
   const sumToPay = getSum(productsList);
 
@@ -36,7 +34,7 @@ export default function OrderForm() {
     }
   }, [productsList]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault();
 
     const deliveryAddress = `${city}, ${street}, ${house}`;
@@ -47,7 +45,7 @@ export default function OrderForm() {
       deliveryAddress,
       sumToPay,
       phone,
-      name,
+      name
     };
 
     dispatch(orderOperations.addOrder({ orderObject }));
@@ -85,12 +83,18 @@ export default function OrderForm() {
     return (
       <form className={styles.contactForm} onSubmit={handleSubmit}>
         {/* <div className={styles.formContainer}> */}
+        {/* <p className={styles.telText}>
+          Введите номер телефона в формате: +38-0YY-XXX-XX-XX
+        </p> */}
         <input
-          type="number"
+          type="tel"
+          pattern="^\+38\d{3}\d{3}\d{2}\d{2}$"
           id="dynamic-label-input"
           value={phone}
           name="phone"
-          placeholder={languages[local]["phone number"]}
+          //placeholder={`${languages[local]["phone number"]} +380YYXXXXXXX`}
+          placeholder="+38-0YY-XXX-XX-XX"
+          //placeholder={languages[local]["phone number"]}
           className={styles.input}
           onChange={handleChangeNumber}
           required
@@ -108,6 +112,7 @@ export default function OrderForm() {
           placeholder={languages[local].city}
           className={styles.input}
           onChange={handleChangeCity}
+          required
         />
         <label htmlFor="dynamic-label-input" className={styles.label}>
           <FormattedMessage id="city" />
@@ -122,6 +127,7 @@ export default function OrderForm() {
           placeholder={languages[local].street}
           className={styles.input}
           onChange={handleChangeStreet}
+          required
         />
         <label htmlFor="dynamic-label-input" className={styles.label}>
           <FormattedMessage id="street" />
@@ -136,6 +142,7 @@ export default function OrderForm() {
           placeholder={languages[local].house}
           className={styles.input}
           onChange={handleChangeHouse}
+          required
         />
         <label htmlFor="dynamic-label-input" className={styles.label}>
           <FormattedMessage id="house" />

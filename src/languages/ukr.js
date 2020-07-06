@@ -1,5 +1,5 @@
 export default {
-  search: "Пошук",
+  search: "Пошук за назвою",
   error: "Щось пiшло не так",
   welcome: "Ласкаво просимо, ",
   welcomeAdmin: "Ласкаво просимо на сторiнку адмiнiстратора!",
@@ -77,21 +77,21 @@ export default {
   "product.category": "Категорiя",
   "product.subcategory": "Пiдкатегорiя",
   "product.price": "Цiна",
-  "product.description": "Об`єм/вага",
-  "phone number": "Номер телефону",
+  "product.description": "Об`єм(L)/ вага(гр.)",
+  "phone number": "Номер телефону в форматі:",
   "register.nameReq": "Потрiбно ввести iм'я",
   "register.emailReq": "Потрiбно ввести електронну пошту",
   "register.emailSym": "Некоректна адреса електронної пошти",
   "register.passReq": "Потрiбно ввести пароль",
   "register.passLength": "Пароль має бути довжиною 6+ символiв",
   "update.composition": "Склад",
+  "update.compositionDiscription": `Виберіть інгредієнти зі списку і натисніть "Додати"`,
   "update.addIngredient": "Вибрати iнгредiєнт",
   "update.addToComposition": "Додати",
   "update.saveChanges": "Зберегти зміни",
   "update.return": "Повернутися до списку продуктiв",
   "delete product": "Видалити продукт",
   "deleted product": "Продукт видалено",
-  "return back": "Повернутися до переліку продуктів",
   "continue editing": "Продовжити редагування",
   "error editing": "Помилка. Спробуйте пізніше",
   "product updated": "Продукт успішно оновлено",
@@ -102,4 +102,10 @@ export default {
   "update.createNewIngredient": "Створити новий енгредіент",
   "update.addNewIngredient": "Додати новий інгредіент",
   "update.ingredientAdded": "Новий інгредієнт створений",
+  "update.errorValidationName":
+    "Недостатня кількість символів для назви. Мінімум 3",
+  "update.errorValidationPrice":
+    "Недостатня кількість символів для ціни. Мінімум 2",
+  "update.errorValidationDescription":
+    "Недостатня кількість символів для об'єму/ціни. Мінімум 1",
 };

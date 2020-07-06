@@ -1,5 +1,5 @@
 export default {
-  search: "Поиск",
+  search: "Поиск по названию",
   error: "Что-то пошло не так",
   welcome: "Добро пожаловать, ",
   welcomeAdmin: "Добро пожаловать на страницу администратора!",
@@ -76,20 +76,21 @@ export default {
   "product.category": "Категория",
   "product.subcategory": "Подкатегория",
   "product.price": "Цена",
-  "product.description": "Объем/вес",
-  "phone number": "Номер телефона",
+  "product.description": "Объем(L)/ вес(гр.)",
+  "phone number": "Номер телефона в формате:",
   "register.nameReq": "Требуется ввести имя",
   "register.emailReq": "Требуется ввести email",
   "register.emailSym": "Некорректный адрес электронной почты",
   "register.passReq": "Требуется ввести пароль",
   "register.passLength": "Пароль должен быть длиной 6+ символов",
   "update.composition": "Состав",
+  "update.compositionDiscription": `Выберите инградиент из выпадающего списка и нажмите "Добавить"`,
   "update.addIngredient": "Выбрать ингредиент",
   "update.addToComposition": "Добавить",
   "update.saveChanges": "Сохранить изменения",
   "update.complited": "Продукт успешно обновлён",
   "deleted product": "Продукт удалён",
-  "return back": "Вернутся к списку продуктов",
+  "return back": "Вернуться к списку продуктов",
   "continue editing": "Продолжить редактирование",
   "error editing": "Ошибка. Попробуйте позже",
   "product updated": "Продукт успешно обновлён",
@@ -102,4 +103,10 @@ export default {
   "update.createNewIngredient": "Создать новый ингредиент",
   "update.addNewIngredient": "Добавить новый ингредиент",
   "update.ingredientAdded": "Новый ингредиент создан",
+  "update.errorValidationName":
+    "Недостаточное количество символов для названия. Минимум: 3",
+  "update.errorValidationPrice":
+    "Недостаточное количество символов для цены. Минимум: 2",
+  "update.errorValidationDescription":
+    "Недостаточное количество символов для объёма/веса. Минимум: 1",
 };
