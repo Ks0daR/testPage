@@ -1,0 +1,111 @@
+.container {
+  padding-top: 50px;
+  padding-bottom: 50px;
+  width: 100%;
+}
+
+.editCard {
+  font-family: RobotoRegular;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  padding: 10px;
+  max-width: 320px;
+  margin: 0 auto;
+  background: #fafafa;
+  box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.25), 0px 2px 2px rgba(0, 0, 0, 0.08),
+    0px 1px 1px rgba(0, 0, 0, 0.16);
+  font-size: 20px;
+  text-align: center;
+}
+.editCard__image {
+  display: block;
+  width: 100%;
+  height: 200px;
+  object-fit: contain;
+  background-color: white;
+}
+.editForm {
+  width: 100%;
+}
+.editCard__title {
+  font-size: 20px;
+  padding-top: 25px;
+  padding-bottom: 15px;
+  font-family: OswaldMedium;
+  font-style: normal;
+  font-weight: 500;
+}
+.editCard__titleName {
+  display: grid;
+  grid-template-columns: 20% 80%;
+  line-height: 30px;
+}
+.editCard__titleLang {
+  margin: 0;
+}
+.editForm__inputLang {
+  height: 30px;
+  padding-left: 10px;
+  width: inherit;
+  margin-bottom: 5px;
+}
+.editCard__photoLabel {
+  width: 100%;
+}
+.editForm__photo {
+  display: none;
+}
+.editForm__photoBtn {
+  font-family: RobotoRegular;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  width: 80%;
+  height: 36px;
+  background: grey;
+  border-radius: 4px;
+  text-align: center;
+  line-height: 36px;
+  cursor: pointer;
+  margin: 0 auto;
+  color: white;
+}
+.editForm__inputCategory {
+  padding-left: 10px;
+  width: 180px;
+}
+.editForm__price {
+  display: inline-grid;
+  grid-template-columns: 30% 100px;
+  margin: 0 auto;
+  line-height: 30px;
+}
+.editForm__priceInput {
+  height: 30px;
+  padding-left: 10px;
+  margin-bottom: 5px;
+}
+.editForm__inputSinglePrice {
+  padding-left: 10px;
+  width: 180px;
+}
+.editForm__priceTitle {
+  margin: 0;
+}
+.editForm__inputDescription {
+  padding-left: 10px;
+  width: 180px;
+}
+.editForm__btnSubmit {
+  display: block;
+  height: 36px;
+  border: none;
+  background: #ff6c00;
+  border-radius: 4px;
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  color: white;
+}
