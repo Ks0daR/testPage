@@ -39,25 +39,31 @@
 .editCard__titleName {
   display: grid;
   grid-template-columns: 20% 80%;
+  line-height: 30px;
 }
 .editCard__titleLang {
   margin: 0;
 }
 .editForm__inputLang {
+  height: 30px;
   padding-left: 10px;
   width: inherit;
+  margin-bottom: 5px;
 }
-.editCard__photoLabel,
-.editForm__newIngredient {
+.editCard__photoLabel {
   width: 100%;
 }
 .editForm__photo {
   display: none;
 }
 .editForm__photoBtn {
+  font-family: RobotoRegular;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
   width: 80%;
   height: 36px;
-  background: #ff6c00;
+  background: grey;
   border-radius: 4px;
   text-align: center;
   line-height: 36px;
@@ -73,9 +79,12 @@
   display: inline-grid;
   grid-template-columns: 30% 100px;
   margin: 0 auto;
+  line-height: 30px;
 }
 .editForm__priceInput {
+  height: 30px;
   padding-left: 10px;
+  margin-bottom: 5px;
 }
 .editForm__inputSinglePrice {
   padding-left: 10px;
