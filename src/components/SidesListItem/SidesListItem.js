@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { FormattedMessage } from "react-intl";
 import Notification from "../Notification";
@@ -45,6 +45,17 @@ const SidesListItem = (props) => {
     onAddProductToOrder(props);
     setIsAddedProdToOrder(true);
   };
+
+  useEffect(() => {
+    setMessage(
+      <FormattedMessage
+        id="order.success"
+        values={{
+          name: name[local],
+        }}
+      />
+    );
+  }, [local, name]);
 
   return (
     <li className={styles.menuItem}>
